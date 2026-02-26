@@ -33,6 +33,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const playlist = [
         { title: "Assam Rifles", artist: "KTSec234 & INDIAN ARMY", album: "INDIAN ARMY", url: "assamrefaile.mp3", art: "images/image28.jpg" },
         { title: " thumak thumak", artist: "Kritika", album: "KRITIKA", url: "kritikavoice.mp3", art: "images/kritika_sketch.jpg" },
+         { title: " Ranjha Ranjha", artist: "Kritika", album: "KRITIKA", url: "kritikavoice2.mp3", art: "images/kritika2.jpg" },
+         { title: " ise Tarah", artist: "Kritika", album: "KRITIKA", url: "kritikavoice3.mp3", art: "images/kritika2.jpg" },
         { title: "लग जा गले", artist: " Lata Mangeshkar", album: "LOVE", url: "love1.mp3", art: "images/image.jpg" },
         { title: "Tuition Badmashi Kaa", artist: " Faujdar, Kiran, Masoom Sharma", album: "HARAYANA", url: "Tuition_Badmashi_Kaa_Hemant_Faujdar,_Kiran,_Masoom_Sharma,_Manisha.mp3", art: "images/image17.jpg" },
         { title: "bhola parvat ka", artist: "KTSec234", album: "BHAGWAN KE BAJAN", url: "audio3.mp3", art: "images/image4.jpg" },
