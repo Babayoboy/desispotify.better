@@ -50,10 +50,12 @@ document.addEventListener('DOMContentLoaded', () => {
     // Playlist Data
     const playlist = [
         { title: "Assam Rifles", artist: "KTSec234 & INDIAN ARMY", album: "INDIAN ARMY", url: "assamrefaile.mp3", art: "images/image28.jpg" },
-        { title: "Thumak Thumak", artist: "Kritika", album: "KRITIKA", url: "kritikavoice.mp3", art: "images/kritika_sketch.jpg" },
-        { title: "Lag Ja Gale", artist: "Lata Mangeshkar", album: "LOVE", url: "love1.mp3", art: "images/image.jpg" },
-        { title: "Tuition Badmashi Kaa", artist: "Faujdar, Kiran", album: "HARAYANA", url: "Tuition_Badmashi_Kaa_Hemant_Faujdar,_Kiran,_Masoom_Sharma,_Manisha.mp3", art: "images/image17.jpg" },
-        { title: "Bhola Parvat Ka", artist: "KTSec234", album: "BHAGWAN KE BAJAN", url: "_Mai_bhola_parvat_ka_Bholenath_kaka_Devo_ke_dev_mahadev_Shiv_Sati.mp3", art: "images/image4.jpg" },
+        { title: " thumak thumak", artist: "Kritika", album: "KRITIKA", url: "kritikavoice.mp3", art: "images/kritika_sketch.jpg" },
+        { title: " Ranjha Ranjha", artist: "Kritika", album: "KRITIKA", url: "kritika2.mp3", art: "kritika2.jpg" },
+        { title: " ise Tarah", artist: "Kritika", album: "KRITIKA", url: "kritika3.mp3", art: "kritika2.jpg" },
+        { title: "लग जा गले", artist: " Lata Mangeshkar", album: "LOVE", url: "love1.mp3", art: "images/image.jpg" },
+        { title: "Tuition Badmashi Kaa", artist: " Faujdar, Kiran, Masoom Sharma", album: "HARAYANA", url: "Tuition_Badmashi_Kaa_Hemant_Faujdar,_Kiran,_Masoom_Sharma,_Manisha.mp3", art: "images/image17.jpg" },
+        { title: "bhola parvat ka", artist: "KTSec234", album: "BHAGWAN KE BAJAN", url: "audio3.mp3", art: "images/image4.jpg" },
         { title: "Radha (Unconditional Love)", artist: "Kaka WRLD", album: "BHAGWAN KE BAJAN", url: "Kaka_WRLD_Radha_Unconditional_Love_Official_Video_Pellet_Drum_Productions.mp3", art: "images/image5.jpg" },
         { title: "Radha Rani Lage", artist: "Simpal Kharel", album: "BHAGWAN KE BAJAN", url: "RADHA_RANI_LAGE_SIMPAL_KHAREL_NEW_SONG_RADHA_KRISHNA_BHAJAN_2023.mp3", art: "images/image5.jpg" },
         { title: "Shiv Tandav Stotram", artist: "Ravana", album: "BHAGWAN KE BAJAN", url: "audio6.mp3", art: "images/image4.jpg" },
