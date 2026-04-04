@@ -47,11 +47,10 @@ document.addEventListener('DOMContentLoaded', () => {
     let isRepeat = false;
     let searchQuery = '';
 
-    // Playlist Data
     const baseUrlImages = "https://odfrnryfhkqqiedvqaco.supabase.co/storage/v1/object/public/images/";
     const baseUrlSongs = "https://odfrnryfhkqqiedvqaco.supabase.co/storage/v1/object/public/songs/"; 
 
-    const songs = [
+    const playlist = [
         { title: "Assam Rifles", artist: "KTSec234 & INDIAN ARMY", album: "INDIAN ARMY", url: baseUrlSongs + "assamrefaile.mp3", art: baseUrlImages + "images/image28.jpg" },
         { title: " thumak thumak", artist: "Kritika", album: "KRITIKA", url: baseUrlSongs + "kritikavoice.mp3", art: baseUrlImages + "kritika_sketch.jpg" },
         { title: " Ranjha Ranjha", artist: "Kritika", album: "KRITIKA", url: baseUrlSongs + "kritika2.mp3", art: baseUrlImages + "kritika2.jpg" },
@@ -139,7 +138,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function updateHeroSection() {
         if (currentAlbum === 'All') {
             heroTitle.textContent = 'All Tracks';
-            heroImage.src = 'images/kt.jpg'; // Default art
+            heroImage.src = 'kt.jpg'; // Default art
         } else {
             heroTitle.textContent = currentAlbum;
             // Find first song art for this album
