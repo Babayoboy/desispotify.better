@@ -51,7 +51,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const baseUrlSongs = "https://odfrnryfhkqqiedvqaco.supabase.co/storage/v1/object/public/songs/"; 
 
     const playlist = [
-        { title: "Assam Rifles", artist: "KTSec234 & INDIAN ARMY", album: "INDIAN ARMY", url: baseUrlSongs + "assamrefaile.mp3", art: baseUrlImages + "images/image28.jpg" },
+        { title: "Assam Rifles", artist: "KTSec234 & INDIAN ARMY", album: "INDIAN ARMY", url: baseUrlSongs + "assamrefaile.mp3", art: baseUrlImages + "image28.jpg" },
         { title: " thumak thumak", artist: "Kritika", album: "KRITIKA", url: baseUrlSongs + "kritikavoice.mp3", art: baseUrlImages + "kritika_sketch.jpg" },
         { title: " Ranjha Ranjha", artist: "Kritika", album: "KRITIKA", url: baseUrlSongs + "kritika2.mp3", art: baseUrlImages + "kritika2.jpg" },
         { title: " ise Tarah", artist: "Kritika", album: "KRITIKA", url: baseUrlSongs + "kritika3.mp3", art: baseUrlImages + "kritika2.jpg" },
