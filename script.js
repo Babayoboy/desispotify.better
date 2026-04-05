@@ -27,6 +27,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const heroTitle = document.getElementById('heroTitle');
     const heroImage = document.getElementById('heroImage');
     const heroCount = document.getElementById('heroCount');
+    const heroDuration = document.getElementById('heroDuration');
 
     // Navigation & Search Elements
     const homeView = document.getElementById('homeView');
@@ -138,7 +139,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function updateHeroSection() {
         if (currentAlbum === 'All') {
             heroTitle.textContent = 'All Tracks';
-            heroImage.src = 'kt.jpg'; // Default art
+            heroImage.src = 'https://odfrnryfhkqqiedvqaco.supabase.co/storage/v1/object/public/images/desispotify.png'; // Default art
         } else {
             heroTitle.textContent = currentAlbum;
             // Find first song art for this album
@@ -149,19 +150,22 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Filter and Render Main Song List
     function filterAndRenderPlaylist() {
-        let filtered = currentAlbum === 'All' ? playlist : playlist.filter(track => track.album === currentAlbum);
-
+        // If searching, search across all songs. Otherwise, filter by album
+        let filtered;
         if (searchQuery) {
-            filtered = filtered.filter(track =>
+            filtered = playlist.filter(track =>
                 track.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
                 track.artist.toLowerCase().includes(searchQuery.toLowerCase())
             );
+        } else {
+            filtered = currentAlbum === 'All' ? playlist : playlist.filter(track => track.album === currentAlbum);
         }
 
         filteredPlaylist = filtered;
 
         // Update stats
-        heroCount.textContent = `${filteredPlaylist.length} songs`;
+        if (heroCount) heroCount.textContent = `${filteredPlaylist.length} songs`;
+        if (heroDuration) heroDuration.textContent = `${Math.round(filteredPlaylist.length * 3.5).toLocaleString()} minutes`;
 
         playlistEl.innerHTML = '';
         filteredPlaylist.forEach((track, index) => {
@@ -210,20 +214,30 @@ document.addEventListener('DOMContentLoaded', () => {
         currentTrackIndex = index;
         const track = queue[currentTrackIndex];
 
+        if (!track) {
+            console.error('Track not found at index:', index);
+            return;
+        }
+
+        if (!audioPlayer) {
+            console.error('Audio player element not found');
+            return;
+        }
+
         audioPlayer.src = track.url;
         audioPlayer.load();
 
         // Update Player Bar UI
-        trackTitleEl.textContent = track.title;
-        trackArtistEl.textContent = track.artist;
-        currentArtEl.src = track.art;
+        if (trackTitleEl) trackTitleEl.textContent = track.title;
+        if (trackArtistEl) trackArtistEl.textContent = track.artist;
+        if (currentArtEl) currentArtEl.src = track.art;
 
         // Highlight in list if visible
         updateActiveRow();
 
         // Update progress
-        progress.style.width = '0%';
-        currentTimeEl.textContent = '0:00';
+        if (progress) progress.style.width = '0%';
+        if (currentTimeEl) currentTimeEl.textContent = '0:00';
     }
 
     function updateActiveRow() {
@@ -271,40 +285,60 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // Event Listeners
-    playPauseBtn.addEventListener('click', () => isPlaying ? pauseTrack() : playTrack());
-    mainPlayBtn.addEventListener('click', () => {
-        // If nothing playing, play first of current view
-        if (audioPlayer.paused && audioPlayer.currentTime === 0 && !audioPlayer.src) {
-            loadAndPlay(0, filteredPlaylist);
-        } else {
-            isPlaying ? pauseTrack() : playTrack();
-        }
-    });
+    if (playPauseBtn) {
+        playPauseBtn.addEventListener('click', () => isPlaying ? pauseTrack() : playTrack());
+    }
+    
+    if (mainPlayBtn) {
+        mainPlayBtn.addEventListener('click', () => {
+            // If nothing playing, play first of current view
+            if (audioPlayer && audioPlayer.paused && audioPlayer.currentTime === 0 && !audioPlayer.src) {
+                loadAndPlay(0, filteredPlaylist);
+            } else {
+                isPlaying ? pauseTrack() : playTrack();
+            }
+        });
+    }
+    
+    if (prevBtn) {
+        prevBtn.addEventListener('click', () => loadAndPlay(currentTrackIndex - 1, currentQueue));
+    }
+    
+    if (nextBtn) {
+        nextBtn.addEventListener('click', () => loadAndPlay(currentTrackIndex + 1, currentQueue));
+    }
 
-    prevBtn.addEventListener('click', () => loadAndPlay(currentTrackIndex - 1, currentQueue));
-    nextBtn.addEventListener('click', () => loadAndPlay(currentTrackIndex + 1, currentQueue));
-
-    volumeSlider.addEventListener('input', () => {
-        const volume = volumeSlider.value / 100;
-        audioPlayer.volume = volume;
-        volumeIcon.className = `fas ${volume > 0.5 ? 'fa-volume-up' : volume > 0 ? 'fa-volume-down' : 'fa-volume-mute'}`;
-    });
+    if (volumeSlider) {
+        volumeSlider.addEventListener('input', () => {
+            const volume = volumeSlider.value / 100;
+            if (audioPlayer) audioPlayer.volume = volume;
+            if (volumeIcon) {
+                volumeIcon.className = `fas ${volume > 0.5 ? 'fa-volume-up' : volume > 0 ? 'fa-volume-down' : 'fa-volume-mute'}`;
+            }
+        });
+    }
 
     // Progress Bar Click
-    progressBar.addEventListener('click', (e) => {
-        const width = progressBar.clientWidth;
-        const clickX = e.offsetX;
-        audioPlayer.currentTime = (clickX / width) * audioPlayer.duration;
-    });
+    if (progressBar) {
+        progressBar.addEventListener('click', (e) => {
+            const width = progressBar.clientWidth;
+            const clickX = e.offsetX;
+            audioPlayer.currentTime = (clickX / width) * audioPlayer.duration;
+        });
+    }
 
     // Audio Events
     audioPlayer.addEventListener('timeupdate', () => {
         const { currentTime, duration } = audioPlayer;
         if (!isNaN(duration)) {
-            progress.style.width = `${(currentTime / duration) * 100}%`;
-            currentTimeEl.textContent = formatTime(currentTime);
-            totalTimeEl.textContent = formatTime(duration);
+            if (progress) progress.style.width = `${(currentTime / duration) * 100}%`;
+            if (currentTimeEl) currentTimeEl.textContent = formatTime(currentTime);
+            if (totalTimeEl) totalTimeEl.textContent = formatTime(duration);
         }
+    });
+
+    audioPlayer.addEventListener('error', (e) => {
+        console.error('Audio loading error:', e.target.error?.message || 'Unknown error');
     });
 
     audioPlayer.addEventListener('ended', () => {
@@ -317,16 +351,20 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // Shuffle & Repeat (UI Toggle only for now, logic implemented basics)
-    shuffleBtn.addEventListener('click', () => {
-        isShuffle = !isShuffle;
-        shuffleBtn.style.color = isShuffle ? 'var(--accent)' : 'var(--text-secondary)';
-        // Shuffle logic would typically shuffle the queue array
-    });
+    if (shuffleBtn) {
+        shuffleBtn.addEventListener('click', () => {
+            isShuffle = !isShuffle;
+            shuffleBtn.style.color = isShuffle ? 'var(--accent)' : 'var(--text-secondary)';
+            // Shuffle logic would typically shuffle the queue array
+        });
+    }
 
-    repeatBtn.addEventListener('click', () => {
-        isRepeat = !isRepeat;
-        repeatBtn.style.color = isRepeat ? 'var(--accent)' : 'var(--text-secondary)';
-    });
+    if (repeatBtn) {
+        repeatBtn.addEventListener('click', () => {
+            isRepeat = !isRepeat;
+            repeatBtn.style.color = isRepeat ? 'var(--accent)' : 'var(--text-secondary)';
+        });
+    }
 
     // Search Input Event
     if (searchInput) {
@@ -356,10 +394,21 @@ document.addEventListener('DOMContentLoaded', () => {
         // Update active class on nav items
         const allNavs = [...navItems, ...mobileNavItems];
         allNavs.forEach(item => {
-            const text = item.querySelector('span').textContent.toLowerCase();
-            if (text.includes(viewName.toLowerCase())) {
-                item.classList.add('active');
-            } else if (viewName === 'home' && (text.includes('home'))) {
+            const span = item.querySelector('span');
+            if (!span) return;
+            
+            const text = span.textContent.toLowerCase();
+            let isActive = false;
+            
+            if (viewName === 'home' && text.includes('home')) {
+                isActive = true;
+            } else if (viewName === 'search' && text.includes('search')) {
+                isActive = true;
+            } else if (viewName === 'library' && text.includes('library')) {
+                isActive = true;
+            }
+            
+            if (isActive) {
                 item.classList.add('active');
             } else {
                 item.classList.remove('active');

@@ -67,6 +67,12 @@
 }
 
 /* Library View Styles */
+#libraryView {
+    width: 100%;
+    display: block;
+    min-height: 100%;
+}
+
 .library-header {
     padding: 32px 32px 16px;
 }
@@ -430,6 +436,11 @@ body {
     letter-spacing: 0.1em;
     text-transform: uppercase;
     border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+#songListView {
+    width: 100%;
+    display: block;
 }
 
 .song-list {
